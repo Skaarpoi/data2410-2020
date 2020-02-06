@@ -23,7 +23,7 @@ public class EmailExtractor {
         }
     }
 
-    public void readContents(){
+    public boolean readContents(){
 
         try {
             BufferedReader read = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -32,8 +32,9 @@ public class EmailExtractor {
             while((input = read.readLine()) != null) {
                 contents.append(input);
             }
+            return true;
         }catch (IOException ex) {
-            System.out.println("Can't find website!");
+            return false;
         }
 
     }
@@ -46,14 +47,16 @@ public class EmailExtractor {
         }
     }
 
-    public void printAddresses(){
+    public boolean printAddresses(){
         if (emailAddresses.size() > 0){
             System.out.println("Extracted Email Addresses: ");
             for (String emails : emailAddresses){
                 System.out.println(emails);
             }
+            return true;
         }else {
             System.out.println("No emails were extracted!");
+            return false;
         }
     }
 }
