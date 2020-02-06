@@ -11,7 +11,7 @@ public class EmailExtractorServerTCP {
             if (args.length == 1)
                 portNumber = Integer.parseInt(args[0]);
             else {
-                System.err.println("Usage: java EchoUcaseServerTCP [<port number>]");
+                System.err.println("Usage: java EmailExtractionServerTCP [<port number>]");
                 System.exit(1);
             }
         }
@@ -34,6 +34,8 @@ public class EmailExtractorServerTCP {
                 // Stream reader from the connection socket
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(connectSocket.getInputStream()));
+
+                ObjectOutputStream objOutput = new ObjectOutputStream(connectSocket.getOutputStream())
         ) {
             InetAddress clientAddr = connectSocket.getInetAddress();
             int clientPort = connectSocket.getPort();
@@ -60,7 +62,8 @@ public class EmailExtractorServerTCP {
                     System.out.println("I (Server) [" + connectSocket.getLocalAddress().getHostAddress() + ":" + portNumber + "] > No emails found!");
                     continue;
                 }
-                out.println(extract.emailAddresses);
+                out.println("0");
+                objOutput.writeObject(extract.emailAddresses);
                 System.out.println("I (Server) [" + connectSocket.getLocalAddress().getHostAddress() + ":" + portNumber + "] > " + extract.emailAddresses);
             }
 
