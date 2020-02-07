@@ -10,7 +10,7 @@ public class EmailExtractorClientTCP
     public static void main(String[] args) throws IOException
     {
 
-        String hostName = "192.168.0.185"; // Default host, localhost
+        String hostName = "localhost"; // Default host, localhost
         int portNumber = 5555; // Default port to use
         if (args.length > 0)
         {
@@ -45,7 +45,7 @@ public class EmailExtractorClientTCP
                         BufferedReader stdIn =
                                 new BufferedReader(
                                         new InputStreamReader(System.in));
-                        // Object input reader
+                        // Reads the object input stream in order to recieve the email Set
                         ObjectInputStream objIn =
                                 new ObjectInputStream(clientSocket.getInputStream())
 
@@ -59,13 +59,17 @@ public class EmailExtractorClientTCP
                 // write keyboard input to the socket
                 out.println(userInput);
 
-                // read from the socket and display
-                String receivedText = in.readLine();
-
-                int code = Integer.parseInt(receivedText);
+                // receives the code from the input
+                String codeString = in.readLine();
+                System.out.println("Server [" + hostName + ":" + portNumber + "] > " + codeString);
+                int code = Integer.parseInt(codeString.substring(0,1));
+                //switches between different cases depending on the recieved code from the server
                 switch (code) {
                     case 0:
+                        //recieves object from InputStream
                         Set<String> emailAddresses = (Set<String>) objIn.readObject();
+
+                        //prints emails line by line
                         System.out.println("Extracted Email Addresses: ");
                         for (String emails : emailAddresses){
                             System.out.println(emails);

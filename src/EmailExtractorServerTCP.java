@@ -47,22 +47,22 @@ public class EmailExtractorServerTCP {
                 if (isValid(receivedText)){
                     extract = new EmailExtractor(receivedText);
                 }else {
-                    out.println("3");
+                    out.println("3: MALFORMED URL");
                     System.out.println("I (Server) [" + connectSocket.getLocalAddress().getHostAddress() + ":" + portNumber + "] > Not a valid URL! Did you use http/https?");
                     continue;
                 }
                 if(!extract.readContents()){
-                    out.println("2");
+                    out.println("2: WEBSITE NOT FOUND");
                     System.out.println("I (Server) [" + connectSocket.getLocalAddress().getHostAddress() + ":" + portNumber + "] > Can't find webpage!");
                     continue;
                 }
                 extract.extractEmail();
                 if (!extract.printAddresses()){
-                    out.println("1");
+                    out.println("1: NO EMAILS FOUND");
                     System.out.println("I (Server) [" + connectSocket.getLocalAddress().getHostAddress() + ":" + portNumber + "] > No emails found!");
                     continue;
                 }
-                out.println("0");
+                out.println("0: EMAILS FOUND");
                 objOutput.writeObject(extract.emailAddresses);
                 System.out.println("I (Server) [" + connectSocket.getLocalAddress().getHostAddress() + ":" + portNumber + "] > " + extract.emailAddresses);
             }
