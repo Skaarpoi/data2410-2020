@@ -9,11 +9,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EmailExtractor {
+    //REGEX to identify email addresses on website
     String pattern = "\\b[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+\\b";
     URL url;
     StringBuilder contents;
     Set<String> emailAddresses = new HashSet<>();
 
+    //Constructor for the extractor
     EmailExtractor(String url) {
         try {
             this.url = new URL(url);
